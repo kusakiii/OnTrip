@@ -1,0 +1,74 @@
+/* t-button 样式 — 引用全局 Design Token */
+.btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius-btn);
+  font-size: var(--font-body);
+  font-weight: 500;
+  transition: opacity var(--duration-fast) var(--easing-default);
+  cursor: pointer;
+}
+.btn:active {
+  opacity: 0.85;
+}
+
+/* 尺寸 */
+.btn-lg {
+  height: 52rpx;
+  padding: 0 var(--space-xl);
+}
+.btn-md {
+  height: 40rpx;
+  padding: 0 var(--space-lg);
+}
+.btn-sm {
+  height: 32rpx;
+  padding: 0 var(--space-md);
+  font-size: var(--font-caption);
+}
+
+/* 宽度 */
+.btn-block {
+  width: 100%;
+}
+
+/* 变体 — primary（绿底白字） */
+.btn-primary {
+  background-color: var(--color-primary);
+  color: var(--color-text-inverse);
+}
+
+/* 变体 — ghost（绿字白底绿边框） */
+.btn-ghost {
+  background-color: var(--color-bg);
+  color: var(--color-primary);
+  border: 1px solid var(--color-primary);
+}
+
+/* 变体 — danger（红底白字，仅删除等危险操作） */
+.btn-danger {
+  background-color: var(--color-danger);
+  color: var(--color-text-inverse);
+}
+
+/* 禁用态 */
+.btn-disabled {
+  opacity: 0.4;
+  pointer-events: none;
+}
+
+/* 加载动画（极简旋转圆环） */
+.btn-loading-spinner {
+  width: 20rpx;
+  height: 20rpx;
+  border: 2rpx solid var(--color-text-inverse);
+  border-top-color: transparent;
+  border-radius: 50%;
+  animation: btn-spin 0.6s linear infinite;
+}
+@keyframes btn-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}

@@ -1,0 +1,66 @@
+{
+  "tripId": "mock_hangzhou_3day_food",
+  "destination": "杭州",
+  "days": 3,
+  "styleTags": ["food"],
+  "status": "ready",
+  "createdAt": "2026-07-03T10:00:00+08:00",
+  "updatedAt": "2026-07-03T11:30:00+08:00",
+  "itinerary": [
+    {
+      "dayIndex": 1,
+      "summary": { "totalDistance": "8.5km", "estimatedCost": 420, "spotCount": 5 },
+      "cards": [
+        {
+          "cardId": "c1",
+          "type": "spot",
+          "name": "西湖风景名胜区-断桥残雪",
+          "searchName": "断桥残雪",
+          "timeRange": "09:00-11:00",
+          "duration": 120,
+          "description": "西湖十景之一，白蛇传故事发源地",
+          "location": { "lat": 30.259, "lng": 120.1486 },
+          "rating": 4.6,
+          "ticketPrice": "免费",
+          "openHours": "全天",
+          "photos": ["https://mock/duanqiao.jpg"],
+          "tags": ["西湖十景", "历史遗迹"],
+          "businessArea": "西湖风景区",
+          "transportFromPrevious": null,
+          "isStarred": true,
+          "_poiStatus": "verified",
+          "_dataSource": "amap",
+          "_version": 1
+        },
+        {
+          "cardId": "c2",
+          "type": "food",
+          "name": "知味观·味庄(杨公堤店)",
+          "searchName": "知味观·味庄",
+          "timeRange": "11:30-13:00",
+          "duration": 90,
+          "description": "百年老字号，杭帮菜代表",
+          "location": { "lat": 30.2415, "lng": 120.135 },
+          "rating": 4.5,
+          "ticketPrice": "¥120/人",
+          "openHours": "11:00-14:00,17:00-21:00",
+          "photos": ["https://mock/zhiweiguan.jpg"],
+          "tags": ["杭帮菜", "老字号"],
+          "businessArea": "杨公堤",
+          "transportFromPrevious": { "method": "步行", "duration": 15, "distance": "1.2km" },
+          "isStarred": false,
+          "_poiStatus": "verified",
+          "_dataSource": "amap",
+          "_version": 1
+        }
+      ]
+    }
+  ],
+  "conversation": {
+    "conversationId": "conv_mock_001",
+    "messages": [],
+    "snapshotStack": []
+  },
+  "version": 1,
+  "editCount": 0
+}

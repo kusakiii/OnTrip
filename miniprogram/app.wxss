@@ -1,0 +1,148 @@
+/**
+ * TripFlow 全局样式 — Design Token 注入
+ *
+ * 设计语言：Apple HIG + 微信原生 + Notion 极简层级
+ * 关键词：极简 / 留白 / 卡片 / 圆角 / 自然
+ *
+ * 规则：
+ * - 所有页面/组件引用 CSS 变量，禁止写死颜色/字号/间距
+ * - 字号只有 5 种 (28/22/18/16/13)
+ * - 间距只有 6 档 (4/8/12/16/24/32/48)
+ * - 圆角只有 4 档 (12/16/20/999)
+ * - 阴影只有 1 级
+ */
+
+page {
+  /* ★ 品牌色 — 唯一绿色 */
+  --color-primary: #2e7d32;
+  --color-primary-light: #e8f5e9;
+  --color-primary-dark: #1b5e20;
+
+  /* ★ 背景 */
+  --color-bg: #ffffff;
+  --color-surface: #f7f8fa;
+  --color-surface-hover: #eef0f2;
+
+  /* ★ 边框 */
+  --color-border: #e5e7eb;
+  --color-border-light: #f0f1f3;
+
+  /* ★ 文字 — 只有 4 个层级 */
+  --color-text: #1f2937;
+  --color-text-secondary: #6b7280;
+  --color-text-tertiary: #9ca3af;
+  --color-text-inverse: #ffffff;
+
+  /* ★ 语义色 */
+  --color-danger: #ef4444;
+  --color-danger-light: #fee2e2;
+  --color-warning: #f59e0b;
+  --color-warning-light: #fef3c7;
+  --color-success: #10b981;
+
+  /* ★ 卡片类型标记色（仅小面积使用） */
+  --color-spot: #3b82f6;
+  --color-food: #f97316;
+  --color-shop: #8b5cf6;
+  --color-hotel: #ec4899;
+  --color-transport: #06b6d4;
+
+  /* ★ 字体 — 只有 5 种 */
+  --font-h1: 28rpx;
+  --font-h2: 22rpx;
+  --font-title: 18rpx;
+  --font-body: 16rpx;
+  --font-caption: 13rpx;
+
+  /* ★ 间距 — 只有 6 档 */
+  --space-xs: 4rpx;
+  --space-sm: 8rpx;
+  --space-md: 12rpx;
+  --space-lg: 16rpx;
+  --space-xl: 24rpx;
+  --space-2xl: 32rpx;
+  --space-3xl: 48rpx;
+
+  /* ★ 圆角 — 只有 4 档 */
+  --radius-btn: 12rpx;
+  --radius-card: 16rpx;
+  --radius-dialog: 20rpx;
+  --radius-avatar: 999rpx;
+
+  /* ★ 阴影 — 只有 1 级 */
+  --shadow-card: 0 2rpx 12rpx rgba(0, 0, 0, 0.08);
+  --shadow-dialog: 0 8rpx 32rpx rgba(0, 0, 0, 0.12);
+
+  /* ★ 动画 — 只有 3 种时长 */
+  --duration-fast: 150ms;
+  --duration-normal: 250ms;
+  --duration-slow: 400ms;
+  --easing-default: cubic-bezier(0.4, 0, 0.2, 1);
+  --easing-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+
+  /* 全局基础 */
+  font-family:
+    -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Microsoft YaHei',
+    'Helvetica Neue', sans-serif;
+  font-size: var(--font-body);
+  color: var(--color-text);
+  background-color: var(--color-bg);
+  line-height: 1.6;
+  box-sizing: border-box;
+}
+
+/* ══════════════════════════════════════
+   全局工具类 — 严格控制数量
+   ══════════════════════════════════════ */
+
+/* 布局 */
+.flex-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.flex-between {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.flex-col {
+  display: flex;
+  flex-direction: column;
+}
+
+/* 文字 */
+.text-ellipsis {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.text-h1 {
+  font-size: var(--font-h1);
+  font-weight: 700;
+}
+.text-h2 {
+  font-size: var(--font-h2);
+  font-weight: 700;
+}
+.text-title {
+  font-size: var(--font-title);
+  font-weight: 500;
+}
+.text-body {
+  font-size: var(--font-body);
+  font-weight: 400;
+}
+.text-caption {
+  font-size: var(--font-caption);
+  font-weight: 400;
+  color: var(--color-text-tertiary);
+}
+
+/* 语义文字色 */
+.text-secondary {
+  color: var(--color-text-secondary);
+}
+.text-tertiary {
+  color: var(--color-text-tertiary);
+}

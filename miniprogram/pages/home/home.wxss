@@ -1,0 +1,125 @@
+/**
+ * 首页样式 — 极简垂直布局
+ *
+ * 原则：
+ * - 大量留白，每块之间有充足间距
+ * - 所有元素居中/统一
+ * - 只用 Design Token 变量
+ */
+
+.home-root {
+  min-height: 100vh;
+  padding: var(--space-3xl) var(--space-2xl);
+  display: flex;
+  flex-direction: column;
+}
+
+/* ── Logo 区 ── */
+.logo-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-sm);
+  padding: var(--space-3xl) 0;
+}
+.logo-text {
+  font-size: 64rpx;
+}
+.logo-title {
+  color: var(--color-text);
+}
+.logo-subtitle {
+  color: var(--color-text-tertiary);
+}
+
+/* ── 加载区 ── */
+.loading-section {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ── 输入区 ── */
+.input-section {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2xl);
+}
+
+.input-group {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+}
+
+.input-label {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+}
+.label-icon {
+  font-size: var(--font-body);
+}
+.label-text {
+  color: var(--color-text);
+}
+.label-hint {
+  color: var(--color-text-tertiary);
+}
+
+/* 输入框 */
+.input-field {
+  height: 52rpx;
+  padding: 0 var(--space-lg);
+  background: var(--color-surface);
+  border: 1rpx solid var(--color-border);
+  border-radius: var(--radius-btn);
+  font-size: var(--font-body);
+  color: var(--color-text);
+}
+.input-field:focus {
+  border-color: var(--color-primary);
+}
+
+/* 天数滑块 */
+.days-slider {
+  display: flex;
+  align-items: center;
+  gap: var(--space-lg);
+}
+.days-slider slider {
+  flex: 1;
+}
+.days-value {
+  width: 60rpx;
+  text-align: right;
+  color: var(--color-text-secondary);
+  font-weight: 500;
+}
+
+/* ── 按钮区 ── */
+.action-section {
+  padding: var(--space-2xl) 0;
+}
+
+/* ── 最近历史 ── */
+.recent-section {
+  padding-top: var(--space-xl);
+  border-top: 1rpx solid var(--color-border-light);
+}
+.section-title {
+  color: var(--color-text-tertiary);
+  margin-bottom: var(--space-md);
+  display: block;
+}
+.recent-item {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+  padding: var(--space-md) 0;
+  border-bottom: 1rpx solid var(--color-border-light);
+}
+.recent-item:active {
+  opacity: 0.6;
+}

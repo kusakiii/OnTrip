@@ -1,0 +1,7 @@
+<view
+  class="btn btn-{{variant}} btn-{{size}} {{block ? 'btn-block' : ''}} {{disabled || loading ? 'btn-disabled' : ''}}"
+  bindtap="onTap"
+>
+  <view wx:if="{{loading}}" class="btn-loading-spinner"></view>
+  <text wx:else>{{text}}</text>
+</view>

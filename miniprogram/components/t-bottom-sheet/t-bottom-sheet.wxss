@@ -1,0 +1,81 @@
+.sheet-root {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 1000;
+}
+
+/* 遮罩 */
+.sheet-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.4);
+  transition: opacity var(--duration-normal) var(--easing-default);
+}
+.overlay-show {
+  opacity: 1;
+}
+.overlay-hide {
+  opacity: 0;
+}
+
+/* 面板 */
+.sheet-panel {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: var(--color-bg);
+  border-radius: var(--radius-dialog) var(--radius-dialog) 0 0;
+  transform: translateY(100%);
+  transition: transform var(--duration-normal) var(--easing-spring);
+  display: flex;
+  flex-direction: column;
+}
+.panel-show {
+  transform: translateY(0);
+}
+.panel-hide {
+  transform: translateY(100%);
+}
+
+/* 拖拽指示条 */
+.sheet-handle {
+  width: 36rpx;
+  height: 4rpx;
+  border-radius: 999rpx;
+  background: var(--color-border);
+  margin: var(--space-md) auto var(--space-sm);
+}
+
+/* 标题栏 */
+.sheet-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--space-sm) var(--space-lg);
+}
+.sheet-title {
+  font-size: var(--font-title);
+  font-weight: 500;
+  color: var(--color-text);
+}
+.sheet-close {
+  width: 28rpx;
+  height: 28rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* 内容区 */
+.sheet-body {
+  flex: 1;
+  padding: var(--space-sm) var(--space-lg) var(--space-3xl);
+  min-height: 200rpx;
+}

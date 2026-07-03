@@ -1,0 +1,9 @@
+{
+  "navigationBarTitleText": "途灵 TripFlow",
+  "usingComponents": {
+    "t-button": "../../components/t-button/t-button",
+    "style-tags": "../../components/style-tags/style-tags",
+    "t-loading": "../../components/t-loading/t-loading",
+    "t-toast": "../../components/t-toast/t-toast"
+  }
+}

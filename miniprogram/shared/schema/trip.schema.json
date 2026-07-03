@@ -1,0 +1,77 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://tripflow.app/schemas/trip-output-v1",
+  "title": "TripOutput",
+  "description": "AI 行程生成输出的 JSON Schema — Architecture v2 §3.3",
+  "type": "object",
+  "required": ["itinerary"],
+  "properties": {
+    "itinerary": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 15,
+      "items": { "$ref": "#/definitions/Day" }
+    }
+  },
+  "definitions": {
+    "Day": {
+      "type": "object",
+      "required": ["dayIndex", "cards"],
+      "properties": {
+        "dayIndex": { "type": "integer", "minimum": 1 },
+        "date": { "type": "string", "format": "date" },
+        "summary": { "$ref": "#/definitions/DaySummary" },
+        "cards": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 10,
+          "items": { "$ref": "#/definitions/Card" }
+        }
+      }
+    },
+    "DaySummary": {
+      "type": "object",
+      "properties": {
+        "totalDistance": { "type": "string" },
+        "estimatedCost": { "type": "number", "minimum": 0 },
+        "spotCount": { "type": "integer", "minimum": 0 }
+      }
+    },
+    "Card": {
+      "type": "object",
+      "required": ["type", "name", "timeRange"],
+      "properties": {
+        "type": {
+          "type": "string",
+          "enum": ["spot", "food", "shop", "hotel", "transport"]
+        },
+        "name": { "type": "string", "minLength": 2, "maxLength": 100 },
+        "searchName": { "type": "string", "maxLength": 50 },
+        "amapCategory": { "type": "string" },
+        "timeRange": {
+          "type": "string",
+          "pattern": "^\\d{2}:\\d{2}-\\d{2}:\\d{2}$"
+        },
+        "duration": { "type": "integer", "minimum": 15, "maximum": 480 },
+        "description": { "type": "string", "maxLength": 200 },
+        "ticketPrice": { "type": "string" },
+        "rating": { "type": "number", "minimum": 0, "maximum": 5 },
+        "transportFromPrevious": {
+          "oneOf": [
+            { "type": "null" },
+            {
+              "type": "object",
+              "required": ["method", "duration"],
+              "properties": {
+                "method": { "type": "string", "enum": ["步行", "打车", "地铁", "公交"] },
+                "duration": { "type": "integer", "minimum": 1 },
+                "distance": { "type": "string" }
+              }
+            }
+          ]
+        },
+        "isStarred": { "type": "boolean" }
+      }
+    }
+  }
+}

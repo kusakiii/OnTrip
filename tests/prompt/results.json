@@ -1,0 +1,16 @@
+[
+  {
+    "name": "hangzhou-food",
+    "category": "generate",
+    "valid": true,
+    "errors": [],
+    "timestamp": "2026-07-03T06:52:15.438Z"
+  },
+  {
+    "name": "replace-outdoor",
+    "category": "modify",
+    "valid": true,
+    "errors": [],
+    "timestamp": "2026-07-03T06:52:15.439Z"
+  }
+]

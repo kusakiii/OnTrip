@@ -1,0 +1,12 @@
+{
+  "navigationBarTitleText": "行程详情",
+  "usingComponents": {
+    "trip-card": "../../components/trip-card/trip-card",
+    "t-bottom-sheet": "../../components/t-bottom-sheet/t-bottom-sheet",
+    "t-button": "../../components/t-button/t-button",
+    "t-tag": "../../components/t-tag/t-tag",
+    "t-toast": "../../components/t-toast/t-toast",
+    "card-detail-sheet": "../../components/card-detail-sheet/card-detail-sheet",
+    "chat-panel": "../../components/chat-panel/chat-panel"
+  }
+}

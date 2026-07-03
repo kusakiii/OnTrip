@@ -1,0 +1,206 @@
+/**
+ * trip-card 样式 — 核心组件
+ *
+ * 布局：flex 行 = 时间轴(60rpx) + 内容卡片(flex1)
+ * 间距：卡片内 gap = 12rpx (--space-md)
+ * 圆角：16rpx (--radius-card)
+ * 阴影：仅一级 (--shadow-card)
+ */
+
+/* ═══ 整体包裹 ═══ */
+.card-wrapper {
+  display: flex;
+  padding-left: var(--space-lg);
+}
+
+/* ═══ 时间轴列 ═══ */
+.timeline-col {
+  width: 60rpx;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex-shrink: 0;
+  position: relative;
+}
+.timeline-time {
+  font-size: var(--font-caption);
+  color: var(--color-text-secondary);
+  font-weight: 500;
+  margin-bottom: 6rpx;
+}
+.timeline-dot {
+  width: 12rpx;
+  height: 12rpx;
+  border-radius: 50%;
+  flex-shrink: 0;
+  z-index: 1;
+}
+.timeline-line {
+  width: 2rpx;
+  flex: 1;
+  min-height: 32rpx;
+  background: var(--color-border-light);
+  margin-top: 4rpx;
+}
+
+/* ═══ 内容卡片 ═══ */
+.card-body {
+  flex: 1;
+  margin-left: var(--space-md);
+  margin-bottom: var(--space-lg);
+  padding: var(--space-lg);
+  background: var(--color-bg);
+  border-radius: var(--radius-card);
+  box-shadow: var(--shadow-card);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+  transition: transform var(--duration-fast) var(--easing-default);
+}
+.card-body:active {
+  transform: scale(0.985);
+}
+
+/* 骨架态（POI 校验中） */
+.card-skeleton {
+  opacity: 0.6;
+}
+
+/* ═══ 卡片头部 ═══ */
+.card-header {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+}
+.card-type-icon {
+  width: 32rpx;
+  height: 32rpx;
+  border-radius: var(--radius-sm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18rpx;
+  flex-shrink: 0;
+}
+.type-spot {
+  background: #eff6ff;
+}
+.type-food {
+  background: #fff7ed;
+}
+.type-shop {
+  background: #f5f3ff;
+}
+.type-hotel {
+  background: #fdf2f8;
+}
+.type-transport {
+  background: #ecfeff;
+}
+
+.card-name {
+  flex: 1;
+  color: var(--color-text);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.card-rating {
+  display: flex;
+  align-items: center;
+  gap: 2rpx;
+  flex-shrink: 0;
+}
+.rating-star {
+  font-size: var(--font-caption);
+}
+.rating-value {
+  color: var(--color-text-secondary);
+}
+
+/* ═══ 照片 ═══ */
+.card-photo {
+  width: 100%;
+  height: 160rpx;
+  border-radius: var(--radius-btn);
+  background: var(--color-surface);
+}
+
+/* ═══ 描述 ═══ */
+.card-desc {
+  line-height: 1.5;
+}
+
+/* ═══ POI 标签 ═══ */
+.card-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-sm);
+}
+.card-tag {
+  font-size: var(--font-caption);
+  color: var(--color-text-secondary);
+  background: var(--color-surface);
+  padding: 2rpx var(--space-sm);
+  border-radius: var(--radius-sm);
+}
+
+/* ═══ 交通 ═══ */
+.card-transport {
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs);
+  padding: var(--space-sm) var(--space-md);
+  background: var(--color-surface);
+  border-radius: var(--radius-btn);
+  align-self: flex-start;
+}
+.transport-icon {
+  font-size: var(--font-caption);
+}
+.transport-text {
+  color: var(--color-text-secondary);
+}
+
+/* ═══ POI 状态 ═══ */
+.card-poi-status {
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs);
+}
+.poi-dot {
+  width: 6rpx;
+  height: 6rpx;
+  border-radius: 50%;
+}
+
+/* ═══ 营业信息 ═══ */
+.card-meta {
+  display: flex;
+  gap: var(--space-lg);
+}
+
+/* ═══ 操作栏 ═══ */
+.card-actions {
+  display: flex;
+  gap: var(--space-xl);
+  padding-top: var(--space-sm);
+  border-top: 1rpx solid var(--color-border-light);
+  margin-top: var(--space-xs);
+}
+.action-item {
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs);
+  color: var(--color-text-tertiary);
+  padding: var(--space-xs) 0;
+}
+.action-item:active {
+  opacity: 0.7;
+}
+.action-active {
+  color: var(--color-warning);
+}
+.action-danger:active {
+  color: var(--color-danger);
+}

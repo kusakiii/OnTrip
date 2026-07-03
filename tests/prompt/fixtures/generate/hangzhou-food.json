@@ -1,0 +1,18 @@
+{
+  "description": "杭州3天美食之旅 — 生成测试",
+  "input": {
+    "destination": "杭州",
+    "days": 3,
+    "styleTags": ["food"]
+  },
+  "expected": {
+    "itinerary.length": 3,
+    "eachDay.minCards": 3,
+    "eachDay.maxCards": 5,
+    "hasFoodCard": true,
+    "hasSpotCard": true,
+    "timeFormat": "HH:MM-HH:MM",
+    "nameNotEmpty": true,
+    "searchNameNotEmpty": true
+  }
+}

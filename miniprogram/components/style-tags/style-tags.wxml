@@ -1,0 +1,10 @@
+<view class="tags-root">
+  <t-tag
+    wx:for="{{tags}}"
+    wx:key="id"
+    label="{{item.icon}} {{item.label}}"
+    selected="{{item._selected}}"
+    data-id="{{item.id}}"
+    bindtap="onTagTap"
+  ></t-tag>
+</view>

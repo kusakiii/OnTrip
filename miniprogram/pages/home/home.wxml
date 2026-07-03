@@ -1,0 +1,104 @@
+<!--
+  首页 — 极简输入
+  布局：Logo → 输入 → 风格 → 按钮 → 最近历史
+  原则：一屏只做一件事
+-->
+<view class="home-root">
+  <!-- ═══ 加载态 ═══ -->
+  <block wx:if="{{loading}}">
+    <view class="loading-section">
+      <t-loading text="{{loadingText}}"></t-loading>
+    </view>
+  </block>
+
+  <!-- ═══ 输入态 ═══ -->
+  <block wx:else>
+    <!-- Logo 区 -->
+    <view class="logo-section">
+      <text class="logo-text">🌍</text>
+      <text class="logo-title text-h1">途灵 TripFlow</text>
+      <text class="logo-subtitle text-caption">AI 旅行规划 · 一键生成专属行程</text>
+    </view>
+
+    <!-- 输入区 -->
+    <view class="input-section">
+      <!-- 目的地 -->
+      <view class="input-group">
+        <view class="input-label">
+          <text class="label-icon">📍</text>
+          <text class="label-text text-title">去哪儿？</text>
+        </view>
+        <input
+          class="input-field"
+          placeholder="输入城市名，如「杭州」"
+          value="{{destination}}"
+          maxlength="20"
+          bindinput="onDestinationInput"
+        />
+      </view>
+
+      <!-- 天数 -->
+      <view class="input-group">
+        <view class="input-label">
+          <text class="label-icon">📅</text>
+          <text class="label-text text-title">玩几天？</text>
+        </view>
+        <view class="days-slider">
+          <slider
+            min="1"
+            max="15"
+            value="{{days}}"
+            activeColor="#2E7D32"
+            backgroundColor="#E5E7EB"
+            block-size="20"
+            bindchange="onDaysChange"
+          />
+          <text class="days-value text-caption">{{days}} 天</text>
+        </view>
+      </view>
+
+      <!-- 风格标签 -->
+      <view class="input-group">
+        <view class="input-label">
+          <text class="label-icon">🎯</text>
+          <text class="label-text text-title">风格偏好</text>
+          <text class="label-hint text-caption">（选 1-3 个）</text>
+        </view>
+        <style-tags
+          selected="{{selectedStyles}}"
+          max="{{3}}"
+          bindchange="onStyleChange"
+        ></style-tags>
+      </view>
+    </view>
+
+    <!-- 生成按钮 -->
+    <view class="action-section">
+      <t-button text="生成行程" variant="primary" size="lg" block bindtap="onGenerate"></t-button>
+    </view>
+
+    <!-- 最近历史 -->
+    <view class="recent-section" wx:if="{{recentTrips.length > 0}}">
+      <text class="section-title text-caption">最近行程</text>
+      <view
+        class="recent-item"
+        wx:for="{{recentTrips}}"
+        wx:key="tripId"
+        data-trip-id="{{item.tripId}}"
+        bindtap="onRecentTripTap"
+      >
+        <text>📌</text>
+        <text class="text-body">{{item.destination}} · {{item.days}}天</text>
+        <text class="text-caption text-tertiary">{{item.createdAt}}</text>
+      </view>
+    </view>
+  </block>
+
+  <!-- Toast -->
+  <t-toast
+    message="{{toastMessage}}"
+    type="{{toastType}}"
+    show="{{toastShow}}"
+    bindhide="onToastHide"
+  ></t-toast>
+</view>

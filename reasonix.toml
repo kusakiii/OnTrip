@@ -1,0 +1,2 @@
+[permissions]
+allow = ["Bash(echo \"=== CLAUDE.md + 配套文档 ===\" && echo \"\" && echo \"1. CLAUDE.md:\" && wc -l CLAUDE.md && grep -c \"^#\" CLAUDE.md && echo \"   章节数\" && echo \"\" && echo \"2. Prompt Guidelines:\" && wc -l docs/prompt-guidelines.md && echo \"\" && echo \"3. 已有的配套文档:\" && ls -la docs/Coding-Convention.md docs/Database-Schema.md docs/api/trip-api.md 2>/dev/null && echo \"\" && echo \"4. Arch v2:\" && wc -l Architecture-v2-开发版.md && echo \"\" && echo \"=== CLAUDE.md 22 章节验证 ===\" && grep \"^# \" CLAUDE.md | head -25)"]

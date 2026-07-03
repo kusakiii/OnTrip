@@ -1,0 +1,43 @@
+<view class="chat-root">
+  <!-- 消息列表 -->
+  <scroll-view class="chat-messages" scroll-y enhanced show-scrollbar="{{false}}">
+    <block wx:for="{{messages}}" wx:key="timestamp">
+      <view class="msg msg-{{item.role}}">
+        <text class="msg-text">{{item.text}}</text>
+        <text class="msg-time text-caption text-tertiary">{{item.timestamp}}</text>
+      </view>
+    </block>
+    <!-- 欢迎语 -->
+    <view class="msg msg-system" wx:if="{{messages.length === 0}}">
+      <text class="msg-text">告诉我你想怎么调整行程 💬</text>
+    </view>
+  </scroll-view>
+
+  <!-- 快速指令 -->
+  <view class="quick-commands">
+    <text
+      class="cmd-chip"
+      wx:for="{{quickCommands}}"
+      wx:key="id"
+      data-prompt="{{item.prompt}}"
+      bindtap="onQuickCommand"
+      >{{item.label}}</text
+    >
+  </view>
+
+  <!-- 输入栏 -->
+  <view class="chat-input-bar">
+    <input
+      class="chat-input"
+      placeholder="输入调整内容…"
+      value="{{inputText}}"
+      maxlength="200"
+      bindinput="onInput"
+      confirm-type="send"
+      bindconfirm="onSend"
+    />
+    <view class="send-btn {{inputText ? 'send-active' : ''}}" bindtap="onSend">
+      <text>↑</text>
+    </view>
+  </view>
+</view>

@@ -1,0 +1,58 @@
+<view class="detail-root" wx:if="{{card}}">
+  <!-- 照片 -->
+  <image
+    wx:if="{{card.photos && card.photos.length > 0}}"
+    class="detail-photo"
+    src="{{card.photos[0]}}"
+    mode="aspectFill"
+  ></image>
+
+  <!-- 评分 + 价格 -->
+  <view class="detail-meta">
+    <view class="detail-rating" wx:if="{{card.rating}}">
+      <text>⭐ {{card.rating}} / 5</text>
+    </view>
+    <text class="text-caption text-tertiary" wx:if="{{card.ticketPrice}}"
+      >{{card.ticketPrice}}</text
+    >
+  </view>
+
+  <!-- 营业时间 -->
+  <view class="detail-row" wx:if="{{card.openHours}}">
+    <text class="text-caption text-secondary">🕐 营业时间</text>
+    <text class="text-body">{{card.openHours}}</text>
+  </view>
+
+  <!-- 地址 -->
+  <view class="detail-row" wx:if="{{card.address}}">
+    <text class="text-caption text-secondary">📍 地址</text>
+    <text class="text-body">{{card.address}}</text>
+  </view>
+
+  <!-- 描述 -->
+  <view class="detail-row" wx:if="{{card.description}}">
+    <text class="text-caption text-secondary">📝 简介</text>
+    <text class="text-body">{{card.description}}</text>
+  </view>
+
+  <!-- 标签 -->
+  <view class="detail-tags" wx:if="{{card.tags && card.tags.length > 0}}">
+    <text class="tag-chip" wx:for="{{card.tags}}" wx:key="*this">{{item}}</text>
+  </view>
+
+  <!-- 操作按钮 -->
+  <view class="detail-actions">
+    <view class="detail-action {{card.isStarred ? 'action-active' : ''}}" bindtap="onStar">
+      <text class="action-icon">{{card.isStarred ? '⭐' : '☆'}}</text>
+      <text>{{card.isStarred ? '已收藏' : '收藏'}}</text>
+    </view>
+    <view class="detail-action" bindtap="onReplace">
+      <text class="action-icon">🔄</text>
+      <text>替换</text>
+    </view>
+    <view class="detail-action action-danger" bindtap="onDelete">
+      <text class="action-icon">🗑</text>
+      <text>删除</text>
+    </view>
+  </view>
+</view>

@@ -1,0 +1,98 @@
+<!--
+  trip-card — 行程卡片模板
+  结构：时间轴 • 内容卡片 • 操作栏
+-->
+<view class="card-wrapper">
+  <!-- ═══ 时间轴 ═══ -->
+  <view class="timeline-col">
+    <!-- 时间 -->
+    <text class="timeline-time" wx:if="{{card.timeRange}}">{{card.timeRange.split('-')[0]}}</text>
+    <!-- 圆点 -->
+    <view class="timeline-dot" style="background: {{dayColor}};"></view>
+    <!-- 连线（最后一张不画） -->
+    <view class="timeline-line" wx:if="{{!isLast}}"></view>
+  </view>
+
+  <!-- ═══ 内容卡片 ═══ -->
+  <view
+    class="card-body {{card._poiStatus === 'pending' ? 'card-skeleton' : ''}}"
+    bindtap="onCardTap"
+  >
+    <!-- ▸ 头部：类型图标 + 名称 + 评分 -->
+    <view class="card-header">
+      <view class="card-type-icon type-{{card.type}}">
+        <text
+          >{{card.type === 'food' ? '🍽' : card.type === 'spot' ? '📍' : card.type === 'shop' ? '🛍' :
+          card.type === 'hotel' ? '🏨' : '🚗'}}</text
+        >
+      </view>
+      <text class="card-name text-title">{{card.name}}</text>
+      <view class="card-rating" wx:if="{{card.rating}}">
+        <text class="rating-star">⭐</text>
+        <text class="rating-value text-caption">{{card.rating}}</text>
+      </view>
+    </view>
+
+    <!-- ▸ 照片（POI 富化后显示） -->
+    <image
+      wx:if="{{card.photos && card.photos.length > 0}}"
+      class="card-photo"
+      src="{{card.photos[0]}}"
+      mode="aspectFill"
+      lazy-load
+    ></image>
+
+    <!-- ▸ 描述 -->
+    <text class="card-desc text-body text-secondary" wx:if="{{card.description}}"
+      >{{card.description}}</text
+    >
+
+    <!-- ▸ POI 标签（富化后显示） -->
+    <view class="card-tags" wx:if="{{card.tags && card.tags.length > 0}}">
+      <text class="card-tag" wx:for="{{card.tags}}" wx:key="*this">{{item}}</text>
+    </view>
+
+    <!-- ▸ 交通信息（首张卡片不显示） -->
+    <view class="card-transport" wx:if="{{!isFirst && card.transportFromPrevious}}">
+      <text class="transport-icon">🚶</text>
+      <text class="transport-text text-caption"
+        >{{card.transportFromPrevious.method}} {{card.transportFromPrevious.duration}}分钟</text
+      >
+    </view>
+
+    <!-- ▸ POI 状态指示 -->
+    <view class="card-poi-status" wx:if="{{card._poiStatus && card._poiStatus !== 'verified'}}">
+      <text class="poi-dot" style="background: {{card._poiStatus}};"></text>
+      <text class="text-caption text-tertiary">
+        {{card._poiStatus === 'pending' ? 'POI 校验中…' : card._poiStatus === 'not_found' ?
+        '未找到该地点' : card._poiStatus === 'api_error' ? '地图服务异常' : ''}}
+      </text>
+    </view>
+
+    <!-- ▸ 营业信息（POI 富化后显示） -->
+    <view class="card-meta" wx:if="{{card.ticketPrice || card.openHours}}">
+      <text class="text-caption text-tertiary" wx:if="{{card.ticketPrice}}"
+        >🎫 {{card.ticketPrice}}</text
+      >
+      <text class="text-caption text-tertiary" wx:if="{{card.openHours}}"
+        >🕐 {{card.openHours}}</text
+      >
+    </view>
+
+    <!-- ═══ 操作栏 ═══ -->
+    <view class="card-actions">
+      <view class="action-item {{card.isStarred ? 'action-active' : ''}}" catchtap="onStarTap">
+        <text>{{card.isStarred ? '⭐' : '☆'}}</text>
+        <text class="text-caption">{{card.isStarred ? '已收藏' : '收藏'}}</text>
+      </view>
+      <view class="action-item" catchtap="onReplaceTap">
+        <text>🔄</text>
+        <text class="text-caption">替换</text>
+      </view>
+      <view class="action-item action-danger" catchtap="onDeleteTap">
+        <text>🗑</text>
+        <text class="text-caption">删除</text>
+      </view>
+    </view>
+  </view>
+</view>

@@ -1,0 +1,34 @@
+.tag {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-sm);
+  height: 32rpx;
+  padding: 0 var(--space-lg);
+  border-radius: var(--radius-btn);
+  font-size: var(--font-caption);
+  font-weight: 500;
+  transition: all var(--duration-fast) var(--easing-default);
+}
+.tag:active {
+  transform: scale(0.96);
+}
+
+.tag-selected {
+  background-color: var(--color-primary-light);
+  color: var(--color-primary);
+}
+.tag-unselected {
+  background-color: var(--color-surface);
+  color: var(--color-text-secondary);
+}
+.tag-disabled {
+  opacity: 0.4;
+  pointer-events: none;
+}
+
+.tag-icon {
+  font-size: var(--font-body);
+}
+.tag-label {
+  white-space: nowrap;
+}

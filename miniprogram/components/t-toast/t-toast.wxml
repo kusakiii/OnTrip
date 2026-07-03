@@ -1,0 +1,5 @@
+<view class="toast-root" wx:if="{{show}}">
+  <view class="toast-body toast-{{type}}">
+    <text>{{message}}</text>
+  </view>
+</view>

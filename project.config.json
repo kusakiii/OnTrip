@@ -1,0 +1,44 @@
+{
+  "miniprogramRoot": "miniprogram/",
+  "cloudfunctionRoot": "cloud/",
+  "setting": {
+    "urlCheck": true,
+    "es6": true,
+    "enhance": true,
+    "postcss": true,
+    "preloadBackgroundData": false,
+    "minified": true,
+    "newFeature": true,
+    "coverView": true,
+    "nodeModules": true,
+    "autoAudits": false,
+    "showShadowRootInWxmlPanel": true,
+    "scopeDataCheck": false,
+    "checkInvalidKey": true,
+    "checkSiteMap": true,
+    "uploadWithSourceMap": true,
+    "compileHotReLoad": false,
+    "babelSetting": {
+      "ignore": [],
+      "disablePlugins": [],
+      "outputPath": ""
+    }
+  },
+  "appid": "",
+  "projectname": "tripflow",
+  "libVersion": "3.0.0",
+  "packOptions": {
+    "ignore": [
+      { "type": "file", "value": ".eslintrc.json" },
+      { "type": "folder", "value": "node_modules" },
+      { "type": "folder", "value": "tests" },
+      { "type": "folder", "value": "mock" },
+      { "type": "folder", "value": "docs" }
+    ]
+  },
+  "debugOptions": {
+    "hidedInDevtools": []
+  },
+  "scripts": {},
+  "condition": {}
+}

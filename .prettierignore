@@ -1,0 +1,7 @@
+node_modules/
+dist/
+build/
+coverage/
+miniprogram_npm/
+package-lock.json
+*.min.js

@@ -1,0 +1,51 @@
+/**
+ * 历史行程页样式 — 极简列表
+ */
+.history-root {
+  min-height: 100vh;
+  background: var(--color-bg);
+}
+
+/* 空状态 */
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: var(--space-3xl);
+  gap: var(--space-md);
+}
+.empty-icon {
+  font-size: 64rpx;
+}
+
+/* 列表 */
+.trip-list {
+  padding: 0 var(--space-lg);
+}
+.trip-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--space-lg) 0;
+  border-bottom: 1rpx solid var(--color-border-light);
+}
+.trip-item:active {
+  opacity: 0.6;
+}
+.trip-item-left {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+}
+.trip-destination {
+  color: var(--color-text);
+}
+.trip-item-right {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+}
+.arrow {
+  font-size: var(--font-title);
+  color: var(--color-text-tertiary);
+}

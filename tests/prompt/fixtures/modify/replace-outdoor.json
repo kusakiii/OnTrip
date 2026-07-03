@@ -1,0 +1,14 @@
+{
+  "description": "替换 — 第二天下午换个户外景点",
+  "input": {
+    "userMessage": "第二天下午换个户外景点",
+    "tripSummary": "D1: 西湖→知味观→灵隐寺 | D2: 西溪→外婆家→博物馆→太子湾 | D3: 龙井村→龙井草堂→九溪→河坊街",
+    "activeDayIndex": 2
+  },
+  "expected": {
+    "intent": "replace",
+    "changes.length": 1,
+    "changes[0].candidates.length": 3,
+    "changes[0].action": "replace"
+  }
+}

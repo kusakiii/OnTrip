@@ -1,0 +1,30 @@
+<view class="sheet-root {{_show ? 'sheet-visible' : ''}}" wx:if="{{_show}}">
+  <!-- 遮罩层 -->
+  <view
+    class="sheet-overlay {{animating ? 'overlay-show' : 'overlay-hide'}}"
+    bindtap="onOverlayTap"
+  ></view>
+
+  <!-- 面板 -->
+  <view
+    class="sheet-panel {{animating ? 'panel-show' : 'panel-hide'}}"
+    catchtap="onContentTap"
+    style="max-height: {{maxHeightRatio * 100}}vh;"
+  >
+    <!-- 拖拽指示条 -->
+    <view class="sheet-handle"></view>
+
+    <!-- 标题栏 -->
+    <view class="sheet-header" wx:if="{{title}}">
+      <text class="sheet-title">{{title}}</text>
+      <view class="sheet-close" bindtap="onOverlayTap">
+        <text class="text-tertiary">✕</text>
+      </view>
+    </view>
+
+    <!-- 内容区 -->
+    <scroll-view scroll-y enhanced show-scrollbar="{{false}}" class="sheet-body">
+      <slot></slot>
+    </scroll-view>
+  </view>
+</view>

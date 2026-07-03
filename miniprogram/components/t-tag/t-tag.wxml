@@ -1,0 +1,7 @@
+<view
+  class="tag {{selected ? 'tag-selected' : 'tag-unselected'}} {{disabled ? 'tag-disabled' : ''}}"
+  bindtap="onTap"
+>
+  <text wx:if="{{icon}}" class="tag-icon">{{icon}}</text>
+  <text class="tag-label">{{label}}</text>
+</view>

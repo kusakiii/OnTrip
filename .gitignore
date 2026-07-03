@@ -1,0 +1,43 @@
+# ── Dependencies ──
+node_modules/
+
+# ── IDE ──
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# ── OS ──
+.DS_Store
+Thumbs.db
+
+# ── Build / Dist ──
+dist/
+build/
+miniprogram_npm/
+
+# ── Env ──
+.env
+.env.local
+.env.*.local
+
+# ── WeChat Mini Program ──
+*.wxss.map
+*.wxml.map
+
+# ── Logs ──
+*.log
+npm-debug.log*
+
+# ── Test ──
+coverage/
+
+# ── Third-party skills (can be re-cloned) ──
+专业团队skill/
+
+# ── Claude ──
+.reasonix/
+
+# ── Misc ──
+*.tgz

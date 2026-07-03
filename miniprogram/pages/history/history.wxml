@@ -1,0 +1,37 @@
+<!--
+  历史行程页 — 极简列表
+  结构：空状态 | 行程列表
+-->
+<view class="history-root">
+  <!-- 空状态 -->
+  <view class="empty-state" wx:if="{{!loading && trips.length === 0}}">
+    <text class="empty-icon">📭</text>
+    <text class="text-body text-tertiary">还没有行程记录</text>
+    <text class="text-caption text-tertiary">去首页生成你的第一条行程吧</text>
+  </view>
+
+  <!-- 行程列表 -->
+  <view class="trip-list" wx:if="{{trips.length > 0}}">
+    <view
+      class="trip-item"
+      wx:for="{{trips}}"
+      wx:key="tripId"
+      data-trip-id="{{item.tripId}}"
+      bindtap="onTripTap"
+    >
+      <view class="trip-item-left">
+        <text class="trip-destination text-title">{{item.destination}}</text>
+        <text class="text-caption text-tertiary"
+          >{{item.days}}天 · {{item.status === 'ready' ? '已完成' : item.status === 'draft' ? '草稿'
+          : ''}}</text
+        >
+      </view>
+      <view class="trip-item-right">
+        <text class="text-caption text-tertiary"
+          >{{item.createdAt ? item.createdAt.slice(0, 10) : ''}}</text
+        >
+        <text class="arrow">›</text>
+      </view>
+    </view>
+  </view>
+</view>
