@@ -55,10 +55,9 @@ Page({
 
     if (cached) {
       this._renderTrip(cached);
-      this.setData({ loading: false });
     }
 
-    // ── ② 云数据库（后台同步，不阻塞）──
+    // ── ② 云数据库（后台同步，不阻塞 UI）──
     try {
       const trip = await this._fetchFromCloud(tripId);
       if (trip) {
@@ -66,13 +65,13 @@ Page({
         this._saveToCache(trip);
       }
     } catch (_err) {
-      // 云同步失败不阻塞，本地缓存已足够
       logger.warn('Cloud sync failed, using cache', { tripId });
-    } finally {
-      this.setData({ loading: false });
     }
 
-    // ── ③ 无数据 → 显示空状态 ──
+    // ── ③ 统一结束 loading（只设一次，避免重复渲染）──
+    this.setData({ loading: false });
+
+    // ── ④ 无任何数据 → 显示空状态 ──
     if (!cached && !this.data.trip) {
       this._showToast('该行程不存在或已被删除', 'error');
     }
@@ -113,12 +112,11 @@ Page({
 
   onStarTap(e) {
     const { cardId } = e.detail;
-    // TODO: 委托 UseCase
     logger.info('Toggle star', { cardId });
+    // US-07 将委托 UseCase 执行收藏/取消
   },
 
   onReplaceTap(e) {
-    // 弹出对话面板，预设"替换"意图
     this.setData({ chatSheetShow: true });
     logger.info('Replace card', e.detail);
   },
@@ -131,8 +129,8 @@ Page({
       confirmColor: '#EF4444',
       success: (res) => {
         if (res.confirm) {
-          // TODO: 委托 UseCase
           logger.info('Delete card confirmed', { cardId });
+          // US-07 将委托 UseCase 执行删除
         }
       },
     });
@@ -155,21 +153,11 @@ Page({
   },
 
   // ═══════════════════════════════════
-  //  地图视图
-  // ═══════════════════════════════════
-
-  onViewModeToggle() {
-    const next = this.data.viewMode === 'timeline' ? 'map' : 'timeline';
-    this.setData({ viewMode: next });
-  },
-
-  // ═══════════════════════════════════
-  //  导出/分享
+  //  导出/分享（US-19 长图导出）
   // ═══════════════════════════════════
 
   onExport() {
-    // TODO: 长图导出
-    wx.showToast({ title: '导出功能开发中', icon: 'none' });
+    wx.showToast({ title: '导出功能即将上线', icon: 'none' });
   },
 
   // ═══════════════════════════════════

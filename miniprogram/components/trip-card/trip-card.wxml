@@ -52,12 +52,10 @@
       <text class="card-tag" wx:for="{{card.tags}}" wx:key="*this">{{item}}</text>
     </view>
 
-    <!-- ▸ 交通信息（首张卡片不显示） -->
-    <view class="card-transport" wx:if="{{!isFirst && card.transportFromPrevious}}">
+    <!-- ▸ 交通信息（首张卡片不显示，transportText 由 observer 计算） -->
+    <view class="card-transport" wx:if="{{!isFirst && transportText}}">
       <text class="transport-icon">🚶</text>
-      <text class="transport-text text-caption"
-        >{{card.transportFromPrevious.method}} {{card.transportFromPrevious.duration}}分钟</text
-      >
+      <text class="transport-text text-caption">{{transportText}}</text>
     </view>
 
     <!-- ▸ POI 状态指示 -->

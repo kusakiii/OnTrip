@@ -9,6 +9,11 @@
  *  ⑤ 返回 Trip 数据给前端
  *
  * 前端收到数据后，通过 ResponsePipeline 做完整校验和 Domain 映射。
+ *
+ * 注意：本文件中的 LLM 调用逻辑（callDeepSeek/callQwen）与
+ * miniprogram/infrastructure/ai/LLMClient.js 存在有意的重复。
+ * 原因：云函数独立部署，无法依赖 miniprogram/ 目录代码。
+ * 云函数中的 console.log 输出到 CloudBase 日志，属于服务端日志。
  */
 
 // ========================

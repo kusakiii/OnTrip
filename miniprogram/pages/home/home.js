@@ -49,6 +49,15 @@ Page({
     this._loadRecentTrips();
   },
 
+  onHide() {
+    // 清理进度轮播定时器，防止内存泄漏
+    this._stopProgressTimer();
+  },
+
+  onUnload() {
+    this._stopProgressTimer();
+  },
+
   // ═══════════════════════════════════
   //  输入处理
   // ═══════════════════════════════════

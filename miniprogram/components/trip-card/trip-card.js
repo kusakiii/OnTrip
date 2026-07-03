@@ -13,24 +13,32 @@ Component({
   options: { styleIsolation: 'shared' },
 
   properties: {
-    /** 卡片数据 */
     card: { type: Object, value: null },
-    /** 是否首张卡片（不显示交通信息） */
     isFirst: { type: Boolean, value: false },
-    /** 是否末张卡片（调整下方连线） */
     isLast: { type: Boolean, value: false },
-    /** 所属天索引 */
     dayIndex: { type: Number, value: 0 },
-    /** 卡片在当天的索引 */
     index: { type: Number, value: 0 },
-    /** 日颜色（用于时间轴圆点） */
     dayColor: { type: String, value: '#2E7D32' },
   },
 
-  computed: {},
+  observers: {
+    card(card) {
+      if (!card) {
+        return;
+      }
+      // 计算交通显示文本（兼容字符串和对象两种格式）
+      const transport = card.transportFromPrevious;
+      let transportText = '';
+      if (transport && typeof transport === 'object') {
+        transportText = `${transport.method || ''} ${transport.duration || ''}分钟`;
+      } else if (typeof transport === 'string' && transport !== 'null') {
+        transportText = transport;
+      }
+      this.setData({ transportText });
+    },
+  },
 
   methods: {
-    /** 点击卡片 → 弹出详情 BottomSheet */
     onCardTap() {
       this.triggerEvent('tap', {
         card: this.data.card,
@@ -39,13 +47,11 @@ Component({
       });
     },
 
-    /** 切换收藏 */
     onStarTap(e) {
       e.stopPropagation();
       this.triggerEvent('star', { cardId: this.data.card.cardId });
     },
 
-    /** 替换 */
     onReplaceTap(e) {
       e.stopPropagation();
       this.triggerEvent('replace', {
@@ -55,7 +61,6 @@ Component({
       });
     },
 
-    /** 删除 */
     onDeleteTap(e) {
       e.stopPropagation();
       this.triggerEvent('delete', {
@@ -63,18 +68,6 @@ Component({
         dayIndex: this.data.dayIndex,
         index: this.data.index,
       });
-    },
-
-    /** POI 状态标签颜色 */
-    _poiStatusColor(status) {
-      const map = {
-        verified: 'var(--color-success)',
-        not_found: 'var(--color-warning)',
-        api_error: 'var(--color-danger)',
-        pending: 'var(--color-text-tertiary)',
-        invalid_name: 'var(--color-danger)',
-      };
-      return map[status] || 'var(--color-text-tertiary)';
     },
   },
 });

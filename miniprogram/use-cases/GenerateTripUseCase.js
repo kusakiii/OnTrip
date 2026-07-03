@@ -14,14 +14,7 @@
  * - 所有 AI 输出必须经过 DTO 校验
  */
 
-const {
-  createTrip,
-  changeStatus,
-  AppError,
-  ErrorCodes,
-  TripStatus,
-  EventBus,
-} = require('../domain');
+const { changeStatus, AppError, ErrorCodes, TripStatus, EventBus } = require('../domain');
 const { processResponse } = require('../shared/dto/ResponsePipeline');
 const TripRepository = require('../repositories/TripRepository');
 const logger = require('../utils/logger');
@@ -42,34 +35,19 @@ async function execute({ destination, days, styleTags = [] }) {
 
   logger.info('GenerateTripUseCase started', { destination, days, styleTags });
 
-  // ── ② 创建 Trip（draft） ──
-  let trip = createTrip({ city: destination, days, styleTags });
-
-  // ── ③ 进入生成状态 ──
-  trip = changeStatus(trip, TripStatus.GENERATING);
-
-  // ── ④ 保存草稿（万一生成失败可恢复） ──
-  await TripRepository.save(trip).catch((err) => {
-    logger.warn('Failed to save draft trip, continuing', { error: err.message });
-  });
-
-  // ── ⑤ 调用云函数生成 ──
+  // ── ② 调用云函数生成 ──
   const rawResult = await callGenerateCloudFunction({ destination, days, styleTags });
 
   if (!rawResult.ok) {
     throw new AppError(
       rawResult.error || ErrorCodes.AI_TIMEOUT,
       rawResult.message || 'AI generation failed',
-      {
-        severity: 'error',
-        recoverable: true,
-        userMessage: '行程生成失败，请重试',
-      },
+      { severity: 'error', recoverable: true, userMessage: '行程生成失败，请重试' },
     );
   }
 
-  // ── ⑥ ResponsePipeline：AI 文本 → 校验 → 修复 → Domain ──
-  // 云函数已做 parse，这里直接传结构数据。包装为 { itinerary: [...] } 以匹配 Schema。
+  // ── ③ ResponsePipeline：AI JSON → 校验 → 修复 → Domain Trip ──
+  // pipeline 负责创建 Trip（单一来源），不预先创建 draft
   const pipelineResult = await processResponse(
     JSON.stringify({ itinerary: rawResult.trip.itinerary }),
     { destination, days, styleTags },
@@ -83,13 +61,13 @@ async function execute({ destination, days, styleTags = [] }) {
     });
   }
 
-  // ── ⑦ 标记为生成完成 ──
-  trip = changeStatus(pipelineResult.trip, TripStatus.GENERATED);
+  // ── ④ 状态转换 ──
+  const trip = changeStatus(pipelineResult.trip, TripStatus.GENERATED);
 
-  // ── ⑧ 持久化 ──
+  // ── ⑤ 持久化 ──
   await TripRepository.save(trip);
 
-  // ── ⑨ 发布领域事件 ──
+  // ── ⑥ 发布领域事件 ──
   EventBus.emit('TripGenerated', trip);
 
   logger.info('GenerateTripUseCase completed', {

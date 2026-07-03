@@ -124,8 +124,8 @@ describe('GenerateTripUseCase', () => {
       expect(trip.itinerary[0].cards).toHaveLength(2);
       expect(trip.itinerary[1].cards).toHaveLength(1);
 
-      // Repository 应被调用保存
-      expect(TripRepository.save).toHaveBeenCalledTimes(2); // draft + generated
+      // Repository 应被调用保存（仅 1 次 — pipeline 创建 Trip 后持久化）
+      expect(TripRepository.save).toHaveBeenCalledTimes(1);
     });
 
     test('输入成都 1天 无风格 → 返回 Trip', async () => {
