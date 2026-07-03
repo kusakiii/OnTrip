@@ -8,6 +8,11 @@
   <block wx:if="{{loading}}">
     <view class="loading-section">
       <t-loading text="{{loadingText}}"></t-loading>
+      <!-- US-02: 超时/失败 → 显示错误 + 重试按钮 -->
+      <view class="error-retry" wx:if="{{errorState}}">
+        <text class="error-msg text-caption">{{errorMessage}}</text>
+        <t-button text="重试" variant="ghost" size="md" bindtap="onRetry"></t-button>
+      </view>
     </view>
   </block>
 

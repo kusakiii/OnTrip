@@ -36,8 +36,22 @@
 .loading-section {
   flex: 1;
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
+  gap: var(--space-xl);
+}
+
+/* US-02: 错误 + 重试 */
+.error-retry {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-lg);
+}
+.error-msg {
+  color: var(--color-danger);
+  text-align: center;
 }
 
 /* ── 输入区 ── */
