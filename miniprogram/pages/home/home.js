@@ -80,6 +80,12 @@ Page({
         styleTags: selectedStyles,
       });
 
+      // 保存到本地存储（trip 页面通过 tripId 读取）
+      this._saveTripToStorage(trip);
+
+      // 保存到最近历史
+      this._addToRecentTrips(trip);
+
       // 跳转到行程详情页
       wx.navigateTo({
         url: `/pages/trip/trip?tripId=${trip.tripId}`,
@@ -97,14 +103,40 @@ Page({
   // ═══════════════════════════════════
 
   _loadRecentTrips() {
-    // 从本地存储加载最近浏览过的行程
     try {
       const stored = wx.getStorageSync('tripflow_recent_trips');
       if (stored && Array.isArray(stored)) {
         this.setData({ recentTrips: stored.slice(0, 3) });
       }
-    } catch (err) {
+    } catch (_err) {
       // 首次打开或无缓存，静默跳过
+    }
+  },
+
+  _saveTripToStorage(trip) {
+    try {
+      const key = `tripflow_trip_${trip.tripId}`;
+      wx.setStorageSync(key, trip);
+    } catch (_err) {
+      // 存储满时静默失败
+    }
+  },
+
+  _addToRecentTrips(trip) {
+    try {
+      const stored = wx.getStorageSync('tripflow_recent_trips') || [];
+      const entry = {
+        tripId: trip.tripId,
+        destination: trip.destination.city,
+        days: trip.days,
+        createdAt: trip.createdAt,
+      };
+      // 去重后插入头部，保留最近 10 条
+      const updated = [entry, ...stored.filter((s) => s.tripId !== trip.tripId)].slice(0, 10);
+      wx.setStorageSync('tripflow_recent_trips', updated);
+      this.setData({ recentTrips: updated.slice(0, 3) });
+    } catch (_err) {
+      // 静默
     }
   },
 

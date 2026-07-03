@@ -1,89 +1,89 @@
 <!--
-  行程详情页
-  结构：Header → DayTabs → Card列表（时间轴）→ FloatingChat
+  行程详情页 — US-05 卡片列表
+
+  布局：Header → 垂直堆叠 Day → Card 列表（时间轴）→ FloatingChat
+  交互：点击 Day 标题折叠/展开该日行程
 -->
 <view class="trip-root">
-  <!-- ═══ Header：目的地 + 天数 + 视图切换 ═══ -->
+  <!-- ═══ Header ═══ -->
   <view class="trip-header" wx:if="{{trip}}">
     <view class="header-info">
       <text class="text-h2">{{trip.destination.city}}</text>
-      <text class="text-caption text-tertiary"
-        >{{trip.days}}天 · {{trip.styleTags.length > 0 ? '' : '综合'}}行程</text
-      >
+      <text class="text-caption text-tertiary">{{trip.days}}天 · {{totalCards}}个行程节点</text>
     </view>
     <view class="header-actions">
-      <view class="header-action" bindtap="onViewModeToggle">
-        <text>{{viewMode === 'timeline' ? '🗺' : '📋'}}</text>
-      </view>
       <view class="header-action" bindtap="onExport">
         <text>📤</text>
       </view>
     </view>
   </view>
 
-  <!-- ═══ Day 标签切换 ═══ -->
-  <scroll-view
-    class="day-tabs"
-    scroll-x
-    enhanced
-    show-scrollbar="{{false}}"
-    wx:if="{{trip && viewMode === 'timeline'}}"
-  >
-    <view class="day-tabs-inner">
-      <t-tag
-        wx:for="{{dayTabs}}"
-        wx:key="index"
-        label="{{item.label}} ({{item.summary.spotCount}})"
-        selected="{{activeDayIndex === index}}"
-        data-index="{{index}}"
-        bindtap="onDayTabTap"
-      ></t-tag>
-    </view>
-  </scroll-view>
+  <!-- ═══ 垂直堆叠所有天 ═══ -->
+  <scroll-view class="day-list" scroll-y enhanced show-scrollbar="{{false}}" wx:if="{{trip}}">
+    <view class="day-list-inner">
+      <block wx:for="{{trip.itinerary}}" wx:key="dayIndex">
+        <!-- ▸ Day 标题栏（可折叠） -->
+        <view class="day-header" bindtap="onDayToggle" data-day-index="{{item.dayIndex}}">
+          <view class="day-header-left">
+            <text class="day-title text-title">第{{item.dayIndex}}天</text>
+            <view class="day-summary">
+              <text class="text-caption text-tertiary" wx:if="{{item.summary.totalDistance}}">
+                🚶 {{item.summary.totalDistance}}
+              </text>
+              <text class="text-caption text-tertiary" wx:if="{{item.summary.estimatedCost}}">
+                💰 ¥{{item.summary.estimatedCost}}
+              </text>
+              <text class="text-caption text-tertiary">
+                📍 {{item.summary.spotCount || item.cards.length}}个地点
+              </text>
+            </view>
+          </view>
+          <text class="day-arrow {{collapsedDays[item.dayIndex] ? '' : 'arrow-expanded'}}">▼</text>
+        </view>
 
-  <!-- ═══ 时间轴卡片列表 ═══ -->
-  <scroll-view
-    class="card-list"
-    scroll-y
-    enhanced
-    show-scrollbar="{{false}}"
-    wx:if="{{trip && viewMode === 'timeline'}}"
-  >
-    <view class="card-list-inner">
-      <block wx:for="{{trip.itinerary[activeDayIndex].cards}}" wx:key="cardId">
-        <trip-card
-          card="{{item}}"
-          isFirst="{{index === 0}}"
-          isLast="{{index === trip.itinerary[activeDayIndex].cards.length - 1}}"
-          dayIndex="{{activeDayIndex}}"
-          index="{{index}}"
-          dayColor="{{'#2E7D32'}}"
-          bind:tap="onCardTap"
-          bind:star="onStarTap"
-          bind:replace="onReplaceTap"
-          bind:delete="onDeleteTap"
-        ></trip-card>
+        <!-- ▸ 卡片列表（折叠时隐藏） -->
+        <view class="day-cards" wx:if="{{!collapsedDays[item.dayIndex]}}">
+          <block wx:for="{{item.cards}}" wx:key="cardId" wx:for-item="card">
+            <trip-card
+              card="{{card}}"
+              isFirst="{{index === 0}}"
+              isLast="{{index === item.cards.length - 1}}"
+              dayIndex="{{item.dayIndex}}"
+              index="{{index}}"
+              dayColor="{{'#2E7D32'}}"
+              bind:tap="onCardTap"
+              bind:star="onStarTap"
+              bind:replace="onReplaceTap"
+              bind:delete="onDeleteTap"
+            ></trip-card>
+          </block>
+
+          <!-- 空天 -->
+          <view class="empty-day" wx:if="{{item.cards.length === 0}}">
+            <text class="text-caption text-tertiary">该天暂无行程安排</text>
+          </view>
+        </view>
       </block>
     </view>
 
-    <!-- 空状态 -->
-    <view class="empty-state" wx:if="{{trip.itinerary[activeDayIndex].cards.length === 0}}">
-      <text class="text-body text-tertiary">该天暂无行程安排</text>
-    </view>
+    <!-- 底部留白（浮动按钮不遮挡） -->
+    <view class="list-bottom-spacer"></view>
   </scroll-view>
 
-  <!-- ═══ 地图视图（占位） ═══ -->
-  <view class="map-placeholder" wx:if="{{trip && viewMode === 'map'}}">
-    <text class="text-body text-tertiary">地图视图开发中</text>
-    <text class="text-caption text-tertiary"
-      >将显示 {{trip.itinerary[activeDayIndex].cards.length}} 个地点</text
-    >
+  <!-- ═══ 加载态 ═══ -->
+  <view class="loading-state" wx:if="{{loading}}">
+    <text class="text-body text-tertiary">加载中…</text>
+  </view>
+
+  <!-- ═══ 空状态 ═══ -->
+  <view class="empty-state" wx:if="{{!loading && !trip}}">
+    <text class="text-body text-tertiary">行程不存在或已被删除</text>
   </view>
 
   <!-- ═══ 浮动聊天按钮 ═══ -->
   <view class="floating-chat" bindtap="onChatToggle" wx:if="{{trip && !chatSheetShow}}">
     <text class="chat-icon">💬</text>
-    <text class="text-caption">调整行程</text>
+    <text class="text-caption">调整</text>
   </view>
 
   <!-- ═══ 卡片详情 BottomSheet ═══ -->

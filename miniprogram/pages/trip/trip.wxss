@@ -1,8 +1,8 @@
 /**
- * 行程详情页样式
+ * 行程详情页 — US-05 卡片列表
  *
- * 布局：Header → DayTabs → CardList → FloatingChat
- * 原则：卡片是主角，其他元素围绕卡片
+ * 布局：Header → 垂直堆叠 Days → FloatingChat
+ * 每个 Day：可折叠标题栏 + 卡片时间轴列表
  */
 
 .trip-root {
@@ -43,45 +43,79 @@
   opacity: 0.6;
 }
 
-/* ── Day 标签切换 ── */
-.day-tabs {
-  padding: var(--space-sm) var(--space-lg);
-  background: var(--color-bg);
-  border-bottom: 1rpx solid var(--color-border-light);
+/* ── Day 列表 ═══ */
+.day-list {
+  flex: 1;
 }
-.day-tabs-inner {
-  display: inline-flex;
-  gap: var(--space-sm);
-  white-space: nowrap;
+.day-list-inner {
+  padding-bottom: 40rpx;
+}
+
+/* ── Day 标题栏（可折叠） ═══ */
+.day-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--space-lg);
+  margin: var(--space-sm) var(--space-lg);
+  background: var(--color-bg);
+  border-radius: var(--radius-card);
+  box-shadow: var(--shadow-card);
+}
+.day-header:active {
+  opacity: 0.7;
+}
+.day-header-left {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+}
+.day-title {
+  color: var(--color-text);
+}
+.day-summary {
+  display: flex;
+  gap: var(--space-lg);
+}
+.day-arrow {
+  font-size: var(--font-caption);
+  color: var(--color-text-tertiary);
+  transition: transform var(--duration-normal) var(--easing-default);
+}
+.arrow-expanded {
+  transform: rotate(180deg);
 }
 
 /* ── 卡片列表 ── */
-.card-list {
-  flex: 1;
-  padding-top: var(--space-lg);
+.day-cards {
+  padding: var(--space-sm) 0;
 }
-.card-list-inner {
-  padding-bottom: 120rpx; /* 为浮动按钮留空间 */
+
+/* ── 空天 ── */
+.empty-day {
+  padding: var(--space-xl);
+  text-align: center;
+}
+
+/* ── 底部留白 ── */
+.list-bottom-spacer {
+  height: 120rpx;
+}
+
+/* ── 加载态 ── */
+.loading-state {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 /* ── 空状态 ── */
 .empty-state {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: var(--space-3xl);
-  gap: var(--space-sm);
-}
-
-/* ── 地图占位 ── */
-.map-placeholder {
   flex: 1;
   display: flex;
-  flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: var(--space-md);
-  background: var(--color-surface);
 }
 
 /* ── 浮动聊天按钮 ── */
@@ -98,7 +132,6 @@
   border-radius: var(--radius-avatar);
   box-shadow: var(--shadow-dialog);
   z-index: 100;
-  transition: transform var(--duration-fast) var(--easing-default);
 }
 .floating-chat:active {
   transform: scale(0.95);

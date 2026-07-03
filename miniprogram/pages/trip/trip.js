@@ -20,11 +20,10 @@ Page({
     // ── 行程数据 ──
     trip: null,
     loading: true,
+    totalCards: 0,
 
-    // ── 视图状态 ──
-    activeDayIndex: 0, // 当前显示的天
-    viewMode: 'timeline', // 'timeline' | 'map'
-    dayTabs: [],
+    // ── 折叠状态（key=dayIndex, value=true 表示已折叠） ──
+    collapsedDays: {},
 
     // ── BottomSheet 状态 ──
     detailSheetShow: false,
@@ -51,44 +50,53 @@ Page({
   // ═══════════════════════════════════
 
   async _loadTrip(tripId) {
+    // ── ① 本地存储（即时显示，主要数据源）──
+    const cached = this._getFromCache(tripId);
+
+    if (cached) {
+      this._renderTrip(cached);
+      this.setData({ loading: false });
+    }
+
+    // ── ② 云数据库（后台同步，不阻塞）──
     try {
-      // 优先从本地缓存加载（即时显示）
-      const cached = this._getFromCache(tripId);
-      if (cached) {
-        this._renderTrip(cached);
-      }
-
-      // 从云数据库加载最新版本
       const trip = await this._fetchFromCloud(tripId);
-
-      // 乐观锁：如果本地版本和远程版本不一致，使用远程版本
-      this._renderTrip(trip);
-      this._saveToCache(trip);
-    } catch (err) {
-      logger.error('Failed to load trip', { tripId, error: err.message });
-      this._showToast('加载失败，请下拉刷新', 'error');
+      if (trip) {
+        this._renderTrip(trip);
+        this._saveToCache(trip);
+      }
+    } catch (_err) {
+      // 云同步失败不阻塞，本地缓存已足够
+      logger.warn('Cloud sync failed, using cache', { tripId });
     } finally {
       this.setData({ loading: false });
+    }
+
+    // ── ③ 无数据 → 显示空状态 ──
+    if (!cached && !this.data.trip) {
+      this._showToast('该行程不存在或已被删除', 'error');
     }
   },
 
   _renderTrip(trip) {
-    const dayTabs = trip.itinerary.map((day, _idx) => ({
-      index: day.dayIndex,
-      label: `第${day.dayIndex}天`,
-      summary: day.summary,
-    }));
-
-    this.setData({ trip, dayTabs });
+    const totalCards = trip.itinerary.reduce((sum, day) => sum + day.cards.length, 0);
+    this.setData({ trip, totalCards });
   },
 
   // ═══════════════════════════════════
-  //  Day 切换
+  //  Day 折叠/展开
   // ═══════════════════════════════════
 
-  onDayTabTap(e) {
-    const { index } = e.currentTarget.dataset;
-    this.setData({ activeDayIndex: index });
+  onDayToggle(e) {
+    const { dayIndex } = e.currentTarget.dataset;
+    const collapsedDays = { ...this.data.collapsedDays };
+    // 切换折叠状态
+    if (collapsedDays[dayIndex]) {
+      delete collapsedDays[dayIndex];
+    } else {
+      collapsedDays[dayIndex] = true;
+    }
+    this.setData({ collapsedDays });
   },
 
   // ═══════════════════════════════════
