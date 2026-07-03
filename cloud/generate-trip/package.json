@@ -1,0 +1,7 @@
+{
+  "name": "generate-trip",
+  "version": "1.0.0",
+  "description": "TripFlow - AI 行程生成云函数",
+  "main": "index.js",
+  "dependencies": {}
+}

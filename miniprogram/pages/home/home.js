@@ -11,6 +11,7 @@
  */
 
 const logger = require('../../utils/logger');
+const { execute: generateTrip } = require('../../use-cases/GenerateTripUseCase');
 
 Page({
   data: {
@@ -72,12 +73,16 @@ Page({
     this.setData({ loading: true, loadingText: `正在为 ${destination} 规划 ${days} 天行程…` });
 
     try {
-      // 调用云函数生成行程
-      const result = await this._callGenerateTrip(destination, days, selectedStyles);
+      // 调用 UseCase（内部：CloudBase → AI → DTO → Domain → Repository）
+      const trip = await generateTrip({
+        destination: destination.trim(),
+        days,
+        styleTags: selectedStyles,
+      });
 
       // 跳转到行程详情页
       wx.navigateTo({
-        url: `/pages/trip/trip?tripId=${result.tripId}`,
+        url: `/pages/trip/trip?tripId=${trip.tripId}`,
       });
     } catch (err) {
       logger.error('Generate trip failed', { error: err.message });
@@ -90,23 +95,6 @@ Page({
   // ═══════════════════════════════════
   //  私有方法
   // ═══════════════════════════════════
-
-  async _callGenerateTrip(destination, days, styles) {
-    return new Promise((resolve, reject) => {
-      wx.cloud.callFunction({
-        name: 'generate-trip',
-        data: { destination, days, styleTags: styles },
-        success: (res) => {
-          if (res.result && res.result.tripId) {
-            resolve(res.result);
-          } else {
-            reject(new Error(res.result?.error || 'Unknown error'));
-          }
-        },
-        fail: (err) => reject(err),
-      });
-    });
-  },
 
   _loadRecentTrips() {
     // 从本地存储加载最近浏览过的行程

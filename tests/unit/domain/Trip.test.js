@@ -110,12 +110,13 @@ describe('Trip 聚合根', () => {
   describe('fillItinerary', () => {
     test('应用 AI 数据填充行程', () => {
       const trip = createTrip({ city: '杭州', days: 2 });
+      // fillItinerary 只填充数据，不改变状态（状态由 UseCase 显式控制）
       const filled = fillItinerary(trip, MOCK_RAW_ITINERARY);
 
       expect(filled.itinerary).toHaveLength(2);
       expect(filled.itinerary[0].cards).toHaveLength(2);
       expect(filled.itinerary[1].cards).toHaveLength(2);
-      expect(filled.status).toBe(TripStatus.GENERATED);
+      // 状态由外部 changeStatus 控制
       expect(filled.version).toBe(2);
       expect(filled.editCount).toBe(1);
     });
@@ -147,11 +148,16 @@ describe('Trip 聚合根', () => {
   describe('changeStatus', () => {
     test('应执行合法的状态转换', () => {
       const trip = createTrip({ city: '杭州', days: 2 });
-      const filled = fillItinerary(trip, MOCK_RAW_ITINERARY);
-
-      expect(filled.status).toBe(TripStatus.GENERATED);
-
-      const enriched = changeStatus(filled, TripStatus.ENRICHING);
+      // 显式状态转换：draft → generating
+      const generating = changeStatus(trip, TripStatus.GENERATING);
+      expect(generating.status).toBe(TripStatus.GENERATING);
+      // 填充数据
+      const filled = fillItinerary(generating, MOCK_RAW_ITINERARY);
+      // 显式状态转换：generating → generated
+      const generated = changeStatus(filled, TripStatus.GENERATED);
+      expect(generated.status).toBe(TripStatus.GENERATED);
+      // 继续：generated → enriching
+      const enriched = changeStatus(generated, TripStatus.ENRICHING);
       expect(enriched.status).toBe(TripStatus.ENRICHING);
     });
 

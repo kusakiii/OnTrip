@@ -102,12 +102,9 @@ function fillItinerary(trip, rawItinerary) {
     });
   });
 
-  const newStatus = transition(trip.status, TripStatus.GENERATED);
-
   return Object.freeze({
     ...trip,
     itinerary: Object.freeze(itinerary),
-    status: newStatus,
     updatedAt: new Date().toISOString(),
     version: trip.version + 1,
     editCount: trip.editCount + 1,
